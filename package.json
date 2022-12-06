@@ -37,6 +37,7 @@
     "multer": "^1.4.3",
     "multer-storage-cloudinary": "^4.0.0",
     "puppeteer": "^19.3.0",
+    "puppeteer-autoscroll-down": "^1.1.1",
     "query-to-mongo": "^0.10.1",
     "validator": "^13.7.0"
   },

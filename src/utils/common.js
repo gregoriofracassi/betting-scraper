@@ -8,3 +8,5 @@ export const getCurrentWeekdays = () => {
     return WEEKDAYS.map((day) => day === WEEKDAYS[getDay(new Date())] ? 'today' : day)
 }
 
+
+

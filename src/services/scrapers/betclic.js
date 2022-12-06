@@ -1,6 +1,7 @@
 import puppeteer from "puppeteer"
 import { URL, getSelectors } from "../../utils/betclic.js"
 import { ODDS_KEYS } from "../../utils/common.js"
+import { scrollPageToBottom } from "puppeteer-autoscroll-down"
 
 const SELECTORS = getSelectors()
 
@@ -12,27 +13,21 @@ const getFootballData = async (url) => {
     if (accept_cookies) {
         accept_cookies.click()
     }
-
-    await new Promise(r => setTimeout(r, 2000))
-
     const mart = await page.waitForSelector(SELECTORS.week_buttons.ma)
     if (mart) {
         mart.click()
     }
 
-    await new Promise(r => setTimeout(r, 8000))
+    await new Promise(r => setTimeout(r, 3000))
     
-    
-
-
     const day_odds = await page.evaluate((SELECTORS) => {
         const odds = []
         const articles = document.querySelectorAll(SELECTORS.articles)
-        articles.forEach((article) => {
+        articles.forEach((article, ind) => {
             const game = {}
+            game[ind] = article.innerText
             // const teamsHTML = article.querySelectorAll(SELECTORS.teams)
             odds.push(game)
-
 
     //         const [team_1, team_2] = game_title.split(' ₋ ')
     //         const game = {

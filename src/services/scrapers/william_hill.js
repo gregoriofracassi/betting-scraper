@@ -38,4 +38,4 @@ const getDayData = async (url) => {
 const data = URL_SET.map((url) => getDayData(url))
 const FootballData = await Promise.all(data)
 
-console.log(FootballData.flat())
+console.log(FootballData.flat().find((game) => game.team_1 === 'padova'))
