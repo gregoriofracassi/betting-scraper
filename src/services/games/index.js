@@ -7,9 +7,9 @@ const gamesRouter = Router()
 
 // ---------basic routes---------
 
-gamesRouter.post("/", JWTAuthMiddleware, async (req, res, next) => {
+gamesRouter.post("/", async (req, res, next) => {
   try {
-    const setNewGame = { ...req.body, creator: req.user }
+    const setNewGame = req.body
     const newGame = new GameModel(setNewGame)
     const { _id } = await newGame.save()
     res.status(201).send(_id)
@@ -75,65 +75,5 @@ gamesRouter.delete("/:id", JWTAuthMiddleware, async (req, res, next) => {
     next(error)
   }
 })
-
-// --------add/remove players---------
-
-gamesRouter.post(
-  "/:id/addPlayer",
-  JWTAuthMiddleware,
-  async (req, res, next) => {
-    try {
-      const player = req.user
-      const game = await GameModel.findById(req.params.id)
-      if (game) {
-        const updatePlayers = await GameModel.findByIdAndUpdate(
-          req.params.id,
-          {
-            $push: {
-              participants: player,
-            },
-          },
-          {
-            runValidators: true,
-            new: true,
-          }
-        )
-        res.status(201).send(updatePlayers)
-      } else {
-        next(createError(404, "game not found"))
-      }
-    } catch (error) {
-      next(createError(500, "an error occurred while adding a player"))
-    }
-  }
-)
-
-gamesRouter.delete(
-  "/:id/removePlayer",
-  JWTAuthMiddleware,
-  async (req, res, next) => {
-    try {
-      const game = await GameModel.findById(req.params.id)
-      if (game) {
-        const deletePlayer = await GameModel.findByIdAndUpdate(
-          req.params.id,
-          {
-            $pull: {
-              participants: req.user._id,
-            },
-          },
-          {
-            new: true,
-          }
-        )
-        res.status(201).send(deletePlayer)
-      } else {
-        next(createError(404, "game not found"))
-      }
-    } catch (error) {
-      next(createError(500, "an error occurred while removing a player"))
-    }
-  }
-)
 
 export default gamesRouter

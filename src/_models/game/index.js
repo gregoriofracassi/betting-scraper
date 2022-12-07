@@ -1,79 +1,33 @@
 import mongoose from "mongoose"
 
-const LogEventSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
-  event: {
-    type: String,
-  },
-})
-
-const MessageSchema = new mongoose.Schema(
+const OddsSchema = new mongoose.Schema(
   {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+    one: {
+      type: Number,
+      required: true
     },
-    text: {
-      type: String,
+    x: {
+      type: Number,
+      required: true
     },
-  },
-  {
-    timestamps: true,
+    two: {
+      type: Number,
+      required: true
+    },
   }
 )
 
 const GameSchema = new mongoose.Schema(
   {
-    participants: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        default: [],
-      },
-    ],
-    teamA: [
-      {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-        },
-        overAll: {
-          type: Number,
-        },
-      },
-    ],
-    teamB: [
-      {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-        },
-        overAll: {
-          type: Number,
-        },
-      },
-    ],
-    dateTime: {
-      type: Date,
-      required: true,
-    },
-    idealTeamValue: {
-      type: Number,
-    },
-    location: {
+    team_1: {
       type: String,
-      required: true,
+      required: true
     },
-    creator: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+    team_2: {
+      type: String,
+      required: true
     },
-    log: [LogEventSchema],
-    chat: [MessageSchema],
+    odds: OddsSchema
   },
   {
     timestamps: true,
