@@ -1,12 +1,8 @@
 import puppeteer from "puppeteer"
-import { getUrlSet, getSelectors } from "../../utils/william_hill.js"
+import { URL_SET, SELECTORS } from "../../utils/william_hill.js"
 import { ODDS_KEYS } from "../../utils/common.js"
-import GameModel from '../../_models/game/index.js'
 
-const URL_SET = getUrlSet()
-const SELECTORS = getSelectors()
-
-const getDayData = async (url) => {
+export const getDayData = async (url) => {
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
     await page.goto(url)
@@ -33,21 +29,12 @@ const getDayData = async (url) => {
         return odds
     }, SELECTORS, ODDS_KEYS)
     browser.close()
+    console.info(`Extracted william hill day data - ${day_odds.length} games`)
     return day_odds
 }
 
-const data = URL_SET.map((url) => getDayData(url))
-const nested_data = await Promise.all(data)
-const betting_lines = nested_data.flat()
-
-console.log(betting_lines[0]);
-
-try {
-    const setNewGame = betting_lines[0]
-    const newGame = new GameModel(setNewGame)
-    const { _id } = await newGame.save()
-    console.log('game saved')
-} catch (error) {
-    console.log(error)
+export const getWeekData = async (url_set) => {
+    const data = url_set.map((url) => getDayData(url))
+    const nested_data = await Promise.all(data)
+    return nested_data.flat()
 }
-

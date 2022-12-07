@@ -1,12 +1,9 @@
 import puppeteer from "puppeteer"
-import { URL, getSelectors, getWeekBtns } from "../../utils/betclic.js"
+import { URL, SELECTORS, WEEK_BTNS } from "../../utils/betclic.js"
 import { clickElement } from "../../utils/navigation.js"
 
-const SELECTORS = getSelectors()
-const WEEK_BTNS = getWeekBtns()
-
-const getDayData = async (url, week_day) => {
-    const browser = await puppeteer.launch()
+const getDayData = async (url, week_btn) => {
+    const browser = await puppeteer.launch({ headless: false })
     const page = await browser.newPage()
     await page.setViewport({
         height: 20000,
@@ -14,7 +11,7 @@ const getDayData = async (url, week_day) => {
     });
     await page.goto(url, {waitUntil: 'networkidle2'})
     await clickElement(page, SELECTORS.accept_cookies)
-    await clickElement(page, week_day)
+    await clickElement(page, week_btn)
     
     await new Promise(r => setTimeout(r, 5000))
     await page.screenshot({path: 'img.png'}) // find better solution
@@ -40,10 +37,17 @@ const getDayData = async (url, week_day) => {
         return odds
     }, SELECTORS)
     browser.close()
+    console.info(`Extracted betclic day data - ${day_odds.length} games`)
     return day_odds
 }
 
-const data = WEEK_BTNS.map((btn) => getDayData(URL, btn))
-const FootballData = await Promise.all(data)
+// const data = WEEK_BTNS.map((btn) => getDayData(URL, btn))
+// const FootballData = await Promise.all(data)
 
-console.log(FootballData.flat())
+const datadata = []
+for (const btn of WEEK_BTNS) {
+    const data = await getDayData(URL, btn)
+    datadata.push(...data)
+}
+
+console.log(datadata)
