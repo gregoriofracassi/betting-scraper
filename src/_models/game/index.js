@@ -27,7 +27,10 @@ const GameSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    odds: OddsSchema
+    odds: {
+      betclic: OddsSchema, //add required
+      william_hill: OddsSchema
+    }
   },
   {
     timestamps: true,

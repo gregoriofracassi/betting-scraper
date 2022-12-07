@@ -3,7 +3,9 @@ import createError from "http-errors"
 import GameModel from "../../_models/game/index.js"
 import { JWTAuthMiddleware } from "../../auth/middlewares.js"
 import { URL_SET } from "../../utils/william_hill.js"
-import { getWeekData, getDayData } from "../scrapers/william_hill.js"
+import { URL, WEEK_BTNS } from "../../utils/betclic.js"
+import { getDayData } from "../scrapers/william_hill.js"
+import { getBetclicData } from "../scrapers/betclic.js"
 
 const gamesRouter = Router()
 
@@ -41,10 +43,10 @@ gamesRouter.post("/williamhill", async (req, res, next) => {
 gamesRouter.post("/betclic", async (req, res, next) => {
   try {
     const week_games = []
-    for (const url of URL_SET) {
-      const day_games = await getDayData(url)
-      week_games.push(...day_games)
-    }
+  for (const btn of WEEK_BTNS) {
+    const day_games = await getBetclicData(URL, btn)
+    week_games.push(...day_games)
+  }
     console.info(`William Hill total week games - ${week_games.length}`)
     GameModel.insertMany(week_games)
     console.info('Games saved in db in db')

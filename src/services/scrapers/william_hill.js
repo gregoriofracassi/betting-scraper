@@ -17,12 +17,14 @@ export const getDayData = async (url) => {
             const game = {
                 team_1: team_1.toLowerCase(),
                 team_2: team_2.toLowerCase(),
-                odds: {}
+                odds: {
+                    william_hill: {}
+                }
             }
             
             const oddsHTML = article.querySelectorAll(SELECTORS.odds)
             oddsHTML.forEach((odd, ind) =>{
-                game.odds[ODDS_KEYS[ind]] = parseFloat(odd.innerText)
+                game.odds.william_hill[ODDS_KEYS[ind]] = parseFloat(odd.innerText)
             })
             odds.push(game)
         })
