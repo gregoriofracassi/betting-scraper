@@ -30,21 +30,7 @@ gamesRouter.post('/williamhill', async (req, res, next) => {
 		const saved_games = await GameModel.find()
 		const [games_to_add, games_to_update] = ProviderService.determineGames(week_games, saved_games)
 
-		const updated_games = []
-		for (const game of games_to_update) {
-			const updated = await GameModel.findByIdAndUpdate(
-				game._id,
-				{
-					$push: { teams: game.teams, odds: game.odds },
-				},
-				{
-					runValidators: true,
-					new: true,
-				}
-			)
-			updated_games.push(updated)
-		}
-		console.info(`${games_to_update.length} games updated in db`)
+		await ProviderService.addTeamsandOdds(games_to_update)
 
 		await GameModel.insertMany(games_to_add)
 		console.info(`${games_to_add.length} games added in db`)
@@ -68,11 +54,18 @@ gamesRouter.post('/betclic', async (req, res, next) => {
 		const provider = await ProviderModel.findOne({ name: BetclicUtils.provider_name })
 		const provider_id = provider._id
 		week_games.forEach((game) => {
-			;(game.teams.provider = provider_id), (game.odds.provider = provider_id)
+			game.teams.provider = provider_id
+			game.odds.provider = provider_id
 		})
 
-		await GameModel.insertMany(week_games)
-		console.info('Games saved in db')
+		const saved_games = await GameModel.find()
+		const [games_to_add, games_to_update] = ProviderService.determineGames(week_games, saved_games)
+
+		await ProviderService.addTeamsandOdds(games_to_update)
+
+		await GameModel.insertMany(games_to_add)
+		console.info(`${games_to_add.length} games added in db`)
+
 		res.status(201).send(`Saved ${week_games.length} games`)
 	} catch (error) {
 		console.log(error)
