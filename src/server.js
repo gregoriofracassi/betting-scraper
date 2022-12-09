@@ -1,7 +1,7 @@
 import cors from 'cors'
 import express from 'express'
-import gamesRouter from './services/routers/games/index.js'
-import providersRouter from './services/routers/providers/index.js'
+import gamesRouter from './routers/games.js'
+import providersRouter from './routers/providers.js'
 import { badRequestErrorHandler, notFoundErrorHandler, forbiddenErrorHandler, catchAllErrorHandler, unauthorizedErrorHandler } from './errorHandlers.js'
 
 const server = express()

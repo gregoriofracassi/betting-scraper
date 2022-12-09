@@ -1,26 +1,26 @@
 import { Router } from 'express'
 import createError from 'http-errors'
-import GameModel from '../../../_models/game/index.js'
+import GameModel from '../_models/game/index.js'
+import ProviderModel from '../_models/provider/index.js'
 // import { JWTAuthMiddleware } from "../../../auth/middlewares.js"
-import { URL_SET, PROVIDER_NAME_WILLIAM_HILL } from '../../../utils/william_hill.js'
-import { URL, WEEK_BTNS, PROVIDER_NAME_BETCLIC } from '../../../utils/betclic.js'
-import { getWilliamHillDayData } from '../../scrapers/william_hill.js'
-import { getBetclicDayData } from '../../scrapers/betclic.js'
-import { determineGames } from '../../providers/index.js'
-import ProviderModel from '../../../_models/provider/index.js'
+import { WilliamHillUtils } from '../utils/william_hill.js'
+import { BetclicUtils } from '../utils/betclic.js'
+import { WilliamHillScraper } from '../services/scrapers/william_hill.js'
+import { BetclicScraper } from '../services/scrapers/betclic.js'
+import { ProviderService } from '../services/providers/index.js'
 
 const gamesRouter = Router()
 
 gamesRouter.post('/williamhill', async (req, res, next) => {
 	try {
 		const week_games = []
-		for (const url of URL_SET) {
-			const day_games = await getWilliamHillDayData(url)
+		for (const url of WilliamHillUtils.url_set) {
+			const day_games = await WilliamHillScraper.getDayData(url)
 			week_games.push(...day_games)
 		}
 		console.info(`William Hill total week games - ${week_games.length}`)
 
-		const provider = await ProviderModel.findOne({ name: PROVIDER_NAME_WILLIAM_HILL }) // possibly in services
+		const provider = await ProviderModel.findOne({ name: WilliamHillUtils.provider_name }) // possibly in services
 		const provider_id = provider._id
 		week_games.forEach((game) => {
 			game.teams.provider = provider_id
@@ -28,7 +28,7 @@ gamesRouter.post('/williamhill', async (req, res, next) => {
 		})
 
 		const saved_games = await GameModel.find()
-		const [games_to_add, games_to_update] = determineGames(week_games, saved_games)
+		const [games_to_add, games_to_update] = ProviderService.determineGames(week_games, saved_games)
 
 		const updated_games = []
 		for (const game of games_to_update) {
@@ -59,13 +59,13 @@ gamesRouter.post('/williamhill', async (req, res, next) => {
 gamesRouter.post('/betclic', async (req, res, next) => {
 	try {
 		const week_games = []
-		for (const btn of WEEK_BTNS) {
-			const day_games = await getBetclicDayData(URL, btn)
+		for (const btn of BetclicUtils.week_btns) {
+			const day_games = await BetclicScraper.getDayData(BetclicUtils.url, btn)
 			week_games.push(...day_games)
 		}
 		console.info(`Betclic total week games - ${week_games.length}`)
 
-		const provider = await ProviderModel.findOne({ name: PROVIDER_NAME_BETCLIC })
+		const provider = await ProviderModel.findOne({ name: BetclicUtils.provider_name })
 		const provider_id = provider._id
 		week_games.forEach((game) => {
 			;(game.teams.provider = provider_id), (game.odds.provider = provider_id)

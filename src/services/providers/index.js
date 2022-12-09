@@ -1,4 +1,4 @@
-export const determineGames = (week_games, saved_games) => {
+const determineGames = (week_games, saved_games) => {
 	const add_games = []
 	const update_games =[]
 	week_games.forEach((scraped_game) => {
@@ -21,4 +21,8 @@ export const determineGames = (week_games, saved_games) => {
 		}
 	})
 	return [add_games, update_games]
+}
+
+export const ProviderService = {
+	determineGames
 }
