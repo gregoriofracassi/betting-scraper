@@ -1,7 +1,7 @@
 import { getCurrentWeekdays } from './common.js'
 
 const URL = (weekDay) => `https://sports.williamhill.it/betting/it-it/calcio/matches/competition/${weekDay}/esito-finale-1x2`
-export const PROVIDER_NAME = 'William Hill'
+export const PROVIDER_NAME_WILLIAM_HILL = 'William Hill'
 
 const getUrlSet = () => {
 	return getCurrentWeekdays().map((day) => URL(day))

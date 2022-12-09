@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer'
-import { SELECTORS, PROVIDER_NAME } from '../../utils/william_hill.js'
+import { SELECTORS } from '../../utils/william_hill.js'
 import { ODDS_KEYS } from '../../utils/common.js'
 
 export const getWilliamHillDayData = async (url) => {

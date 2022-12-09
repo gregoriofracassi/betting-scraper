@@ -1,7 +1,7 @@
 import { WEEKDAYS_NUMS } from './common.js'
 
 export const URL = 'https://www.betclic.it/scommesse/calcio/serie-a_1_31_33'
-export const PROVIDER_NAME = 'Betclic'
+export const PROVIDER_NAME_BETCLIC = 'Betclic'
 
 const getWeekBtns = () => {
 	return WEEKDAYS_NUMS.map((num) => {
