@@ -2,6 +2,7 @@ import cors from 'cors'
 import express from 'express'
 import gamesRouter from './routers/games.js'
 import providersRouter from './routers/providers.js'
+import arbsRouter from './routers/arbs.js'
 import { badRequestErrorHandler, notFoundErrorHandler, forbiddenErrorHandler, catchAllErrorHandler, unauthorizedErrorHandler } from './errorHandlers.js'
 
 const server = express()
@@ -23,6 +24,7 @@ server.use(express.json())
 
 server.use('/games', gamesRouter)
 server.use('/providers', providersRouter)
+server.use('/arbs', arbsRouter)
 
 server.use(badRequestErrorHandler)
 server.use(notFoundErrorHandler)

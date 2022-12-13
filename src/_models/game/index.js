@@ -49,6 +49,4 @@ const GameSchema = new mongoose.Schema(
 // 	}
 // })
 
-export const gimmick = 'ciao'
-
 export default mongoose.model('Game', GameSchema)
