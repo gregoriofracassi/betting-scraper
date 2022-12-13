@@ -1,4 +1,5 @@
 import GameModel from "../../_models/game/index.js"
+import { compareTwoStrings } from "string-similarity"
 
 const determineGames = (week_games, saved_games) => {
 	const add_games = []
@@ -11,6 +12,9 @@ const determineGames = (week_games, saved_games) => {
 						scraped_game.teams.team_1.slice(0,3) === teams.team_1.slice(0,3) &&
 						scraped_game.teams.team_2.slice(0,3) === teams.team_2.slice(0,3)
 					)
+					// const teams_1s = compareTwoStrings(scraped_game.teams.teams_1, teams.team_1)
+					// const teams_2s = compareTwoStrings(scraped_game.teams.teams_2, teams.team_2)
+					// return (teams_1s + teams_2s) / 2 > 0.75
 				})
 			)
 		})

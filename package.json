@@ -38,6 +38,7 @@
     "multer-storage-cloudinary": "^4.0.0",
     "puppeteer": "^19.3.0",
     "query-to-mongo": "^0.10.1",
+    "string-similarity": "^4.0.4",
     "validator": "^13.7.0"
   },
   "devDependencies": {
