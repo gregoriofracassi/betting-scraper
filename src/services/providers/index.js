@@ -1,5 +1,34 @@
 import GameModel from "../../_models/game/index.js"
 import { compareTwoStrings } from "string-similarity"
+import { WilliamHillUtils } from "../../utils/william_hill.js"
+import { WilliamHillScraper } from "../scrapers/william_hill.js"
+import { BetclicUtils } from "../../utils/betclic.js"
+import { BetclicScraper } from "../scrapers/betclic.js"
+
+const getWeekGames = async (provider) => {
+	const week_games = []
+	
+	switch (provider) {
+		case 'williamhill':
+			for (const url of WilliamHillUtils.url_set) {
+				const day_games = await WilliamHillScraper.getDayData(url)
+				week_games.push(...day_games)
+			}
+			console.info(`William Hill total week games - ${week_games.length}`)
+			break
+		case 'betclic': 
+			for (const btn of BetclicUtils.week_btns) {
+				const day_games = await BetclicScraper.getDayData(BetclicUtils.url, btn)
+				week_games.push(...day_games)
+			}
+			console.info(`Betclic total week games - ${week_games.length}`)
+			break
+		default:
+			console.warn('Unknown provider')
+	}
+
+	return week_games
+}
 
 const determineGames = (week_games, saved_games) => {
 	const add_games = []
@@ -49,5 +78,6 @@ const addTeamsandOdds = async (games_to_update) => {
 
 export const ProviderService = {
 	determineGames,
-	addTeamsandOdds
+	addTeamsandOdds,
+	getWeekGames
 }

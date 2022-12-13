@@ -1,7 +1,6 @@
 import { CommonUtils } from './common.js'
 
 const url = 'https://www.betclic.it/scommesse/calcio/serie-a_1_31_33'
-const provider_name = 'Betclic'
 
 const getWeekBtns = () => {
 	return CommonUtils.weekdays_nums.map((num) => {
@@ -27,7 +26,6 @@ const selectors = {
 
 export const BetclicUtils = {
 	url,
-	provider_name,
 	selectors,
 	week_btns: getWeekBtns()
 }
