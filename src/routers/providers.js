@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import createError from 'http-errors'
-import ProviderModel from '../../../_models/provider/index.js'
+import ProviderModel from '../_models/provider/index.js'
 
 const providersRouter = Router()
 

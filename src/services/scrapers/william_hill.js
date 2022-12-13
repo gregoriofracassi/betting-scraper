@@ -1,19 +1,19 @@
 import puppeteer from 'puppeteer'
-import { SELECTORS, PROVIDER_NAME } from '../../utils/william_hill.js'
-import { ODDS_KEYS } from '../../utils/common.js'
+import { WilliamHillUtils } from '../../utils/william_hill.js'
+import { CommonUtils } from '../../utils/common.js'
 
-export const getWilliamHillDayData = async (url) => {
+const getDayData = async (url) => {
 	const browser = await puppeteer.launch()
 	const page = await browser.newPage()
 	await page.goto(url)
 
 	const day_odds = await page.evaluate(
-		(SELECTORS, ODDS_KEYS) => {
+		(selectors, odds_keys) => {
 			const odds = []
-			const articles = document.querySelectorAll(SELECTORS.articles)
+			const articles = document.querySelectorAll(selectors.articles)
 
 			articles.forEach((article) => {
-				const game_title = article.querySelector(SELECTORS.game_title).innerText
+				const game_title = article.querySelector(selectors.game_title).innerText
 				const [team_1, team_2] = game_title.split(' ₋ ')
 				const game = {
 					teams: {
@@ -23,18 +23,22 @@ export const getWilliamHillDayData = async (url) => {
 					odds: {},
 				}
 
-				const oddsHTML = article.querySelectorAll(SELECTORS.odds)
+				const oddsHTML = article.querySelectorAll(selectors.odds)
 				oddsHTML.forEach((odd, ind) => {
-					game.odds[ODDS_KEYS[ind]] = parseFloat(odd.innerText)
+					game.odds[odds_keys[ind]] = parseFloat(odd.innerText)
 				})
 				odds.push(game)
 			})
 			return odds
 		},
-		SELECTORS,
-		ODDS_KEYS
+		WilliamHillUtils.selectors,
+		CommonUtils.odds_keys
 	)
 	browser.close()
 	console.info(`Extracted william hill day data - ${day_odds.length} games`)
 	return day_odds
+}
+
+export const WilliamHillScraper = {
+	getDayData
 }
