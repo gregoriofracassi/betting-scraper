@@ -37,8 +37,19 @@ const determineGames = (week_games, saved_games) => {
 		const same_game = saved_games.find((saved_game) => {
 			return saved_game.teams.some((teams) => {
 				// add check on strings present
-				const similarity = compareTwoStrings(scraped_game.teams.team_2, teams.team_2) + compareTwoStrings(scraped_game.teams.team_1, teams.team_1)
-				return similarity > 1.25
+				const team_1_score = compareTwoStrings(scraped_game.teams.team_1, teams.team_1)
+				const team_2_score = compareTwoStrings(scraped_game.teams.team_2, teams.team_2)
+				const similarity = team_1_score + team_2_score
+				if (
+					scraped_game.teams.team_1.startsWith('guang') ||
+					scraped_game.teams.team_1.startsWith('shan') ||
+					scraped_game.teams.team_2.startsWith('guang') ||
+					scraped_game.teams.team_2.startsWith('shan')
+				) {
+					return similarity > 1.6
+				} else {
+					return similarity > 1.25
+				}
 			})
 		})
 		if (same_game) {
