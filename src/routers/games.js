@@ -29,10 +29,10 @@ footballRouter.post('/games', async (req, res, next) => {
 		await GameModel.insertMany(games_to_add)
 		console.info(`${games_to_add.length} games added in db`)
 
-		res.status(201).send('done')
+		res.status(201).send('Games correctly saved and updated')
 	} catch (error) {
 		console.log(error)
-		next(createError(500, 'An error occurred while saving new game'))
+		next(createError(500, 'An error occurred while saving games'))
 	}
 })
 

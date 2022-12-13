@@ -38,7 +38,7 @@ const determineGames = (week_games, saved_games) => {
 			return saved_game.teams.some((teams) => {
 				// add check on strings present
 				const similarity = compareTwoStrings(scraped_game.teams.team_2, teams.team_2) + compareTwoStrings(scraped_game.teams.team_1, teams.team_1)
-				return similarity > 1.3
+				return similarity > 1.25
 			})
 		})
 		if (same_game) {
