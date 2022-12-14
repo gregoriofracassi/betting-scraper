@@ -1,8 +1,8 @@
 import { Router } from 'express'
 import createError from 'http-errors'
-import ArbModel from '../_models/arb/index.js'
-import GameModel from '../_models/game/index.js'
-import { ArbService } from '../services/abrs/index.js'
+import ArbModel from '../../_models/football/arb/index.js'
+import GameModel from '../../_models/football/game/index.js'
+import { ArbService } from '../../services/abrs/index.js'
 
 const arbsRouter = Router()
 

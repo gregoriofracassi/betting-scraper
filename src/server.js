@@ -1,8 +1,8 @@
 import cors from 'cors'
 import express from 'express'
-import footballRouter from './routers/games.js'
+import footballRouter from './routers/football/games.js'
 import providersRouter from './routers/providers.js'
-import arbsRouter from './routers/arbs.js'
+import arbsRouter from './routers/football/arbs.js'
 import { badRequestErrorHandler, notFoundErrorHandler, forbiddenErrorHandler, catchAllErrorHandler, unauthorizedErrorHandler } from './errorHandlers.js'
 
 const server = express()
