@@ -35,6 +35,9 @@ const GameSchema = new mongoose.Schema(
 	{
 		teams: [TeamsSchema],
 		odds: [OddsSchema],
+		date: {
+			type: Date
+		}
 	},
 	{
 		timestamps: true,
