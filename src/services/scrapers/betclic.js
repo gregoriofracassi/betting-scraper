@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer'
-import { BetclicUtils } from '../../utils/betclic.js'
+import { BetclicFootballUtils } from '../../utils/football/betclic.js'
 import { NavigationUtils } from '../../utils/scrapers/navigation.js' 
 
 const getDayData = async (url, week_btn) => {
@@ -10,7 +10,7 @@ const getDayData = async (url, week_btn) => {
 		width: 1500,
 	})
 	await page.goto(url, { waitUntil: 'networkidle2' })
-	await NavigationUtils.clickElement(page, BetclicUtils.selectors.accept_cookies)
+	await NavigationUtils.clickElement(page, BetclicFootballUtils.selectors.accept_cookies)
 	await NavigationUtils.clickElement(page, week_btn)
 
 	await new Promise((r) => setTimeout(r, 5000))
@@ -37,7 +37,7 @@ const getDayData = async (url, week_btn) => {
 			odds.push(game)
 		})
 		return odds
-	}, BetclicUtils.selectors)
+	}, BetclicFootballUtils.selectors)
 	browser.close()
 	console.info(`Extracted betclic day data - ${day_odds.length} games`)
 	return day_odds

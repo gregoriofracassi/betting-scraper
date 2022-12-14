@@ -1,4 +1,4 @@
-import { CommonUtils } from './common.js'
+import { CommonUtils } from '../common.js'
 
 const url = 'https://www.betclic.it/scommesse/calcio/serie-a_1_31_33'
 
@@ -24,7 +24,7 @@ const selectors = {
 	accept_cookies: '#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll',
 }
 
-export const BetclicUtils = {
+export const BetclicFootballUtils = {
 	url,
 	selectors,
 	week_btns: getWeekBtns()

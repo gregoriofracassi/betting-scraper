@@ -4,8 +4,6 @@ const weekdays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'frida
 
 const weekdays_nums = [1, 2, 3, 4, 5, 6, 7]
 
-const odds_keys = ['one', 'x', 'two']
-
 const getCurrentWeekdays = () => {
     return weekdays.map((day) => day === weekdays[getDay(new Date())] ? 'today' : day)
 }
@@ -18,12 +16,15 @@ const provider_names = [
     {
         key: 'williamhill',
         label: 'William Hill'
-    }
+    },
+    {
+        key: 'starcasino',
+        label: 'Star Casino'
+    },
 ]
 
 export const CommonUtils = {
     weekdays_nums,
-    odds_keys,
     provider_names,
     getCurrentWeekdays
 }

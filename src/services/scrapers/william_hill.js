@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer'
-import { WilliamHillUtils } from '../../utils/william_hill.js'
-import { CommonUtils } from '../../utils/common.js'
+import { WilliamHillFootballUtils } from '../../utils/football/william_hill.js'
+import { CommonFootballUtils } from '../../utils/football/common.js'
 
 const getDayData = async (url) => {
 	const browser = await puppeteer.launch()
@@ -31,8 +31,8 @@ const getDayData = async (url) => {
 			})
 			return odds
 		},
-		WilliamHillUtils.selectors,
-		CommonUtils.odds_keys
+		WilliamHillFootballUtils.selectors,
+		CommonFootballUtils.odds_keys
 	)
 	browser.close()
 	console.info(`Extracted william hill day data - ${day_odds.length} games`)

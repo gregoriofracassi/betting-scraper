@@ -1,4 +1,4 @@
-import { CommonUtils } from "../../utils/common.js"
+import { CommonFootballUtils } from "../../utils/football/common.js" 
 
 // odds param example [
 //     {one: Number, provider: String},
@@ -6,7 +6,7 @@ import { CommonUtils } from "../../utils/common.js"
 //     {two: Number, provider: String},
 // ]
 const calculateArb = (odds) => {
-    const possibility = odds.reduce((acc, val, ind) => acc + 1 / val[CommonUtils.odds_keys[ind]], 0)
+    const possibility = odds.reduce((acc, val, ind) => acc + 1 / val[CommonFootballUtils.odds_keys[ind]], 0)
     if (possibility < 1) {
         const win_percentage = 100 / possibility - 100
         const one = odds.find((line) => line.one)
@@ -51,7 +51,7 @@ const findGameArbs = async (arr) => {
             const obj = {
                 provider: el.provider
             }
-            obj[CommonUtils.odds_keys[ind]] = el[CommonUtils.odds_keys[ind]]
+            obj[CommonFootballUtils.odds_keys[ind]] = el[CommonFootballUtils.odds_keys[ind]]
             return obj
         })
         const arb = calculateArb(betting_line)
