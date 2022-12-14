@@ -15,7 +15,7 @@ const ArbOddSchema = new mongoose.Schema({
 const ArbSchema = new mongoose.Schema({
     game: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Game',
+		ref: 'FootballGame',
 		required: true,
 	},
     one: ArbOddSchema,
@@ -27,4 +27,4 @@ const ArbSchema = new mongoose.Schema({
     }
 })
 
-export default mongoose.model('Arb', ArbSchema)
+export default mongoose.model('FootballArb', ArbSchema)

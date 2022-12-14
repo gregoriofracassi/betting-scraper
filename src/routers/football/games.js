@@ -1,10 +1,10 @@
 import { Router } from 'express'
 import createError from 'http-errors'
-import GameModel from '../_models/game/index.js'
-import ProviderModel from '../_models/provider/index.js'
+import GameModel from '../../_models/football/game/index.js'
+import ProviderModel from '../../_models/provider/index.js'
 // import { JWTAuthMiddleware } from "../../../auth/middlewares.js"
-import { ProviderService } from '../services/providers/index.js'
-import { CommonUtils } from '../utils/common.js'
+import { ProviderService } from '../../services/providers/index.js'
+import { CommonUtils } from '../../utils/common.js'
 
 const footballRouter = Router()
 

@@ -52,4 +52,4 @@ const GameSchema = new mongoose.Schema(
 // 	}
 // })
 
-export default mongoose.model('Game', GameSchema)
+export default mongoose.model('FootballGame', GameSchema)

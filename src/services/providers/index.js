@@ -1,4 +1,4 @@
-import GameModel from '../../_models/game/index.js'
+import GameModel from '../../_models/football/game/index.js'
 import { compareTwoStrings } from 'string-similarity'
 import { WilliamHillUtils } from '../../utils/william_hill.js'
 import { WilliamHillScraper } from '../scrapers/william_hill.js'
