@@ -11,7 +11,7 @@ const footballRouter = Router()
 footballRouter.post('/games', async (req, res, next) => {
 	try {
 		const { provider } = req.body
-		const week_games = await ProviderService.getWeekGames(provider)
+		const week_games = await ProviderService.getFootballGames(provider)
 
 		const provider_name = CommonUtils.provider_names.find((prov) => prov.key === provider)
 		const provider_entity = await ProviderModel.findOne({ name: provider_name.label })

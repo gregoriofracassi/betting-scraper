@@ -1,6 +1,8 @@
 const selectors = {
-	
+	items: 'div.SEs'
 }
+
+
 
 const urls = [
 	'https://www.starcasino.it/scommesse/calcio/aff-championship-238792',
@@ -97,6 +99,7 @@ const urls = [
 	'https://www.starcasino.it/scommesse/calcio/ligue-1-200534',
 ]
 
-export const StarCasinoUtils = {
+export const StarCasinoFootballUtils = {
 	selectors,
+	urls
 }

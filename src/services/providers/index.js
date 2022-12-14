@@ -5,7 +5,7 @@ import { WilliamHillScraper } from '../scrapers/william_hill.js'
 import { BetclicFootballUtils } from '../../utils/football/betclic.js'
 import { BetclicScraper } from '../scrapers/betclic.js'
 
-const getWeekGames = async (provider) => {
+const getFootballGames = async (provider) => {
 	const week_games = []
 
 	switch (provider) {
@@ -30,6 +30,19 @@ const getWeekGames = async (provider) => {
 	return week_games
 }
 
+// week_game param structure: [
+// 	{
+// 		teams: {
+// 			team_1: String
+// 			team_2: String
+// 		},
+// 		odds: {
+// 			one: Number,
+// 			x: Number,
+// 			two: Number,
+// 		}
+// 	}
+// ]
 const determineGames = (week_games, saved_games) => {
 	const add_games = []
 	const update_games = []
@@ -84,5 +97,5 @@ const addTeamsandOdds = async (games_to_update) => {
 export const ProviderService = {
 	determineGames,
 	addTeamsandOdds,
-	getWeekGames,
+	getFootballGames,
 }
