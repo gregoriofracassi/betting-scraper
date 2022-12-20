@@ -21,6 +21,10 @@ const provider_names = [
         key: 'starcasino',
         label: 'Star Casino'
     },
+    {
+        key: 'planetwin365',
+        label: 'Planetwin365'
+    },
 ]
 
 export const CommonUtils = {
