@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 const ProviderSchema = new mongoose.Schema({
 	name: {
 		type: String,
-		enum: ['William Hill', 'Betclic'],
+		enum: ['William Hill', 'Betclic', 'Planetwin365'],
 		required: true,
 	},
 	logo: {
