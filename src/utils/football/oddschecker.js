@@ -11,7 +11,7 @@ const selectors = {
 
 const providers = ['Bet365', 'Goldbet', 'Pokerstars', 'Sisal', 'Snai', 'Starcasino', '888sport', 'Betfair', 'Better', 'Netbet', 'Planetwin365', 'Novibet']
 
-export const OddscheckerlFootballUtils = {
+export const OddscheckerFootballUtils = {
 	urls,
 	selectors,
 	providers
