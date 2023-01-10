@@ -10,6 +10,33 @@ const OddsSchema = new mongoose.Schema({
 	two: {
 		type: Number,
 	},
+	one_x: {
+		type: Number,
+	},
+	one_two: {
+		type: Number,
+	},
+	x_two: {
+		type: Number,
+	},
+	over_1dot5: {
+		type: Number,
+	},
+	under_1dot5: {
+		type: Number,
+	},
+	over_2dot5: {
+		type: Number,
+	},
+	under_2dot5: {
+		type: Number,
+	},
+	goal: {
+		type: Number,
+	},
+	no_goal: {
+		type: Number,
+	},
 	provider: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Provider',

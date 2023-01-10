@@ -4,31 +4,43 @@ import { WilliamHillFootballUtils } from '../../utils/football/william_hill.js'
 import { WilliamHillScraper } from '../scrapers/william_hill.js'
 import { BetclicFootballUtils } from '../../utils/football/betclic.js'
 import { BetclicScraper } from '../scrapers/betclic.js'
+import { OddscheckerScraper } from '../scrapers/oddschecker.js'
+import { OddscheckerFootballUtils } from '../../utils/football/oddschecker.js'
 
 const getFootballGames = async (provider) => {
-	const week_games = []
+	const games_list = []
 
 	switch (provider) {
 		case 'williamhill':
 			for (const url of WilliamHillFootballUtils.url_set) {
 				const day_games = await WilliamHillScraper.getDayData(url)
-				week_games.push(...day_games)
+				games_list.push(...day_games)
 			}
-			console.info(`William Hill total week games - ${week_games.length}`)
+			console.info(`William Hill total week games - ${games_list.length}`)
 			break
 		case 'betclic':
 			for (const btn of BetclicFootballUtils.week_btns) {
 				const day_games = await BetclicScraper.getDayData(BetclicFootballUtils.url, btn)
-				week_games.push(...day_games)
+				games_list.push(...day_games)
 			}
-			console.info(`Betclic total week games - ${week_games.length}`)
+			console.info(`Betclic total week games - ${games_list.length}`)
+			break
+		case 'oddschecker':
+			const urls = await OddscheckerScraper.getUrls(OddscheckerFootballUtils.urls.football)
+			for (const url of urls) {
+				const game_odds = await OddscheckerScraper.getGameData(url)
+				games_list.push(...game_odds)
+			}
+			console.log(games_list)
+			console.info(`Oddschecker total games - ${games_list.length}`)
 			break
 		default:
 			console.warn('Unknown provider')
 	}
-
-	return week_games
+	return games_list
 }
+
+getFootballGames('oddschecker')
 
 // week_game param structure: [
 // 	{
