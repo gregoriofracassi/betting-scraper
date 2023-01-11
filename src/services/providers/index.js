@@ -25,22 +25,20 @@ const getFootballGames = async (provider) => {
 			}
 			console.info(`Betclic total week games - ${games_list.length}`)
 			break
-		case 'oddschecker':
-			const urls = await OddscheckerScraper.getUrls(OddscheckerFootballUtils.urls.football)
-			for (const url of urls) {
-				const game_odds = await OddscheckerScraper.getGameData(url)
-				games_list.push(...game_odds)
-			}
-			console.log(games_list)
-			console.info(`Oddschecker total games - ${games_list.length}`)
-			break
+		// case 'oddschecker':
+		// 	const urls = await OddscheckerScraper.getUrls(OddscheckerFootballUtils.urls.football)
+		// 	for (const url of urls) {
+		// 		const game_odds = await OddscheckerScraper.getGameData(url)
+		// 		games_list.push(...game_odds)
+		// 	}
+		// 	console.log(games_list)
+		// 	console.info(`Oddschecker total games - ${games_list.length}`)
+		// 	break
 		default:
 			console.warn('Unknown provider')
 	}
 	return games_list
 }
-
-getFootballGames('oddschecker')
 
 // week_game param structure: [
 // 	{
