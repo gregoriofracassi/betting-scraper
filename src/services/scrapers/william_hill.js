@@ -2,11 +2,18 @@ import puppeteer from 'puppeteer'
 import { WilliamHillFootballUtils } from '../../utils/football/william_hill.js'
 import { CommonFootballUtils } from '../../utils/football/common.js'
 
-const getDayData = async (url) => {
-	const browser = await puppeteer.launch()
+const { selectors, drpdwn_indexes } = WilliamHillFootballUtils
+const { odds_keys } = CommonFootballUtils
+
+const launch = async (url) => {
+	const browser = await puppeteer.launch({ headless: false })
 	const page = await browser.newPage()
 	await page.goto(url)
 
+	return { browser, page }
+}
+
+const getDayOdds = async (page) => {
 	const day_odds = await page.evaluate(
 		(selectors, odds_keys) => {
 			const odds = []
@@ -31,14 +38,35 @@ const getDayData = async (url) => {
 			})
 			return odds
 		},
-		WilliamHillFootballUtils.selectors,
-		CommonFootballUtils.odds_keys
+		selectors,
+		odds_keys
 	)
-	browser.close()
 	console.info(`Extracted william hill day data - ${day_odds.length} games`)
 	return day_odds
 }
 
-export const WilliamHillScraper = {
-	getDayData
+const clickDropDown = async (page, index) => {
+	const dropdown = await page.$(selectors.dropdown)
+	await dropdown.click()
+	const rows = await page.$$(selectors.drp_down_tr)
+	await rows[index].click({ waitUntil: 'domcontentloaded' })
 }
+
+const getDayData = async (url) => {
+	const { browser, page } = await launch(url)
+
+	await clickDropDown(page, 7)
+
+	await new Promise((r) => setTimeout(r, 10000))
+
+	const day_odds = await getDayOdds(page)
+
+	browser.close()
+	return day_odds
+}
+
+export const WilliamHillScraper = {
+	getDayData,
+}
+
+// 1457

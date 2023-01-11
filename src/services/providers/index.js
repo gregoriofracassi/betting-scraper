@@ -4,11 +4,11 @@ import { WilliamHillFootballUtils } from '../../utils/football/william_hill.js'
 import { WilliamHillScraper } from '../scrapers/william_hill.js'
 import { BetclicFootballUtils } from '../../utils/football/betclic.js'
 import { BetclicScraper } from '../scrapers/betclic.js'
-import { OddscheckerScraper } from '../scrapers/oddschecker.js'
-import { OddscheckerFootballUtils } from '../../utils/football/oddschecker.js'
+import { Planetwin365Scraper } from '../scrapers/planetwin365.js'
+import { Planetwin365FootballUtils } from '../../utils/football/planetwin365.js'
 
 const getFootballGames = async (provider) => {
-	const games_list = []
+	const games_list = [] 
 
 	switch (provider) {
 		case 'williamhill':
@@ -34,6 +34,10 @@ const getFootballGames = async (provider) => {
 		// 	console.log(games_list)
 		// 	console.info(`Oddschecker total games - ${games_list.length}`)
 		// 	break
+		case 'planetwin365':
+			const games = await Planetwin365Scraper.getData(Planetwin365FootballUtils.url)
+			games_list.push(...games)
+			console.info(`Planetwin365 total games - ${games_list.length}`)
 		default:
 			console.warn('Unknown provider')
 	}

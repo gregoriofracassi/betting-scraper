@@ -10,19 +10,16 @@ const footballRouter = Router()
 
 footballRouter.post('/games', async (req, res, next) => {
 	try {
-		const { provider } = req.body
-		const week_games = await ProviderService.getFootballGames(provider)
+		const { provider_id, provider_name } = req.body
+		const games = await ProviderService.getFootballGames(provider_name)
 
-		const provider_name = CommonUtils.provider_names.find((prov) => prov.key === provider)
-		const provider_entity = await ProviderModel.findOne({ name: provider_name.label })
-		const provider_id = provider_entity._id
-		week_games.forEach((game) => {
+		games.forEach((game) => {
 			game.teams.provider = provider_id
 			game.odds.provider = provider_id
 		})
 
 		const saved_games = await GameModel.find()
-		const [games_to_add, games_to_update] = ProviderService.determineGames(week_games, saved_games)
+		const [games_to_add, games_to_update] = ProviderService.determineGames(games, saved_games)
 
 		await ProviderService.addTeamsandOdds(games_to_update)
 

@@ -13,7 +13,7 @@ const selectors = {
     container: 'div.divMainEvents'
 }
 
-export const Planetwin365Utils = {
+export const Planetwin365FootballUtils = {
     selectors,
     url
 }

@@ -1,8 +1,8 @@
 import puppeteer from 'puppeteer'
-import { Planetwin365Utils } from '../../utils/football/planetwin365.js'
+import { Planetwin365FootballUtils } from '../../utils/football/planetwin365.js'
 import { CommonFootballUtils } from '../../utils/football/common.js'
 
-const { url, selectors } = Planetwin365Utils
+const { selectors } = Planetwin365FootballUtils
 const { odds_extended } = CommonFootballUtils
 
 const sliceCheckboxes = (checkboxes, value) => {
@@ -56,6 +56,7 @@ const getPageData = async (page) => {
 		selectors,
 		odds_extended
 	)
+	console.info(`Extracted planetwin365 chunk data - ${Array.from(odds).length} games`)
 	return odds
 }
 
@@ -106,8 +107,6 @@ const getData = async (url) => {
 	return all_odds
 }
 
-console.log(await getData(url))
-
-export const Planetwin365 = {
+export const Planetwin365Scraper = {
 	getData,
 }

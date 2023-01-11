@@ -91,8 +91,6 @@ const getAllGames = async () => {
     return all_games
 }
 
-console.log(await getAllGames())
-
 export const OddscheckerScraper = {
     getUrls,
     getGameData
