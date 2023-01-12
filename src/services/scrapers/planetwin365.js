@@ -56,7 +56,7 @@ const getPageData = async (page) => {
 		selectors,
 		odds_extended
 	)
-	console.info(`Extracted planetwin365 chunk data - ${Array.from(odds).length} games`)
+	console.info(`Extracted planetwin365 chunk data`)
 	return odds
 }
 

@@ -2,18 +2,22 @@ import puppeteer from 'puppeteer'
 import { WilliamHillFootballUtils } from '../../utils/football/william_hill.js'
 import { CommonFootballUtils } from '../../utils/football/common.js'
 
-const { selectors, drpdwn_indexes } = WilliamHillFootballUtils
-const { odds_keys } = CommonFootballUtils
+const { selectors, url_odd_types } = WilliamHillFootballUtils
+const { odds_grouped } = CommonFootballUtils
 
 const launch = async (url) => {
 	const browser = await puppeteer.launch({ headless: false })
 	const page = await browser.newPage()
-	await page.goto(url)
+	await page.setViewport({
+		height: 20000,
+		width: 1500,
+	})
+	await page.goto(url, { waitUntil: 'networkidle2' })
 
 	return { browser, page }
 }
 
-const getDayOdds = async (page) => {
+const getDayOdds = async (page, odds_keys) => {
 	const day_odds = await page.evaluate(
 		(selectors, odds_keys) => {
 			const odds = []
@@ -45,28 +49,26 @@ const getDayOdds = async (page) => {
 	return day_odds
 }
 
-const clickDropDown = async (page, index) => {
-	const dropdown = await page.$(selectors.dropdown)
-	await dropdown.click()
-	const rows = await page.$$(selectors.drp_down_tr)
-	await rows[index].click({ waitUntil: 'domcontentloaded' })
-}
-
 const getDayData = async (url) => {
-	const { browser, page } = await launch(url)
+	let all_odds = []
 
-	await clickDropDown(page, 7)
-
-	await new Promise((r) => setTimeout(r, 10000))
-
-	const day_odds = await getDayOdds(page)
-
-	browser.close()
-	return day_odds
+	for (const [index, odds_types] of url_odd_types.entries()) {
+		const new_url = url + odds_types
+		const { browser, page } = await launch(new_url)
+		const day_odds = await getDayOdds(page, odds_grouped[index])
+		all_odds = day_odds.map((game) => {
+			const matching_game = all_odds.find((prev_game) => prev_game.teams.team_1 === game.teams.team_1 && prev_game.teams.team_2 === game.teams.team_2)
+			const odds_obj = matching_game ? { ...game.odds, ...matching_game.odds } : game.odds
+			return {
+				teams: game.teams,
+				odds: odds_obj,
+			}
+		})
+		browser.close()
+	}
+	return all_odds
 }
 
 export const WilliamHillScraper = {
 	getDayData,
 }
-
-// 1457

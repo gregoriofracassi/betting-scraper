@@ -1,8 +1,15 @@
 import { CommonUtils } from '../common.js'
 
-const url = (weekDay) => `https://sports.williamhill.it/betting/it-it/calcio/matches/competition/${weekDay}/esito-finale-1x2`
+const url = (weekDay) => `https://sports.williamhill.it/betting/it-it/calcio/matches/competition/${weekDay}/`
+const url_odd_types = [
+	'esito-finale-1x2',
+	'segneranno-entrambe-le-squadre',
+	'overunder-15-goal',
+	'overunder-25-goal',
+	'doppia-chance'
+]
 
-const drpdwn_indexes = [1, 4, 5, 7]
+const drpdwn_indexes = [1, 2, 4, 5, 7]
 
 const getUrlSet = () => {
 	return CommonUtils.getCurrentWeekdays().map((day) => url(day))
@@ -19,5 +26,6 @@ const selectors = {
 export const WilliamHillFootballUtils = {
 	url_set: getUrlSet(),
 	selectors,
-	drpdwn_indexes
+	drpdwn_indexes,
+	url_odd_types
 }
